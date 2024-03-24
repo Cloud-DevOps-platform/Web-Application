@@ -49,7 +49,7 @@ Now we have the required Prerequisites ready working for the project CDX-platfor
 
 First initially , before Ensure that you have the appropriate Azure subscription and account set up, and that you have the necessary permissions to create and manage resources.
 after that we need to create a one resource group , to place all related resources under that group, here i created the resource group with name **CDX-platform** under organisation Cloud-DevOps-platform and under repositroy CICD-terraform-workflow.
-github url : https://github.com/Cloud-DevOps-platform/CICD-terraform-workflow/tree/main/sourcecode/terraform
+github url : [https://github.com/Cloud-DevOps-platform/CICD-terraform-workflow/tree/main/sourcecode/terraform](https://github.com/Cloud-DevOps-platform/CICD-terraform-workflow)
 organization : Cloud-DevOps-platform.
 repository   : CICD-terrform-workflow.
 
@@ -86,7 +86,7 @@ after running the terraform apply we got to the azure portal and see the changes
 
 Now, to store the state file we use terraform backend.
 Terraform backend --> A Terraform backend is a configuration option in Terraform that allows you to store and manage the state of your infrastructure. It enables you to manage your Terraform state file remotely, providing several benefits such as version control, collaboration, and remote executions.
-under the github path 
+under the github path : 
 
 
 
