@@ -60,7 +60,7 @@ In main.tf       --> in this file we can have the resource related code,
 like  
 1. resource group creation (CDX-platform) , we specified the resource group name and location
 2. storage account creation (infracdxbackup) , we specify the account_tier and account_replication_tye and under which resource group and location this storage account should be part of.
-3. cotainer creation in storage account(cdxtffile-container), here we need to specofy the storage_account_name and the container_access_type
+3. cotainer creation in storage account(cdxtffile-container), here we need to specofy the storage_account_name and the container_access_type and it is used to store the terraform state file.
 In webapp.tf    --> in this file we have the code for the azure linux_web_app and service plan for the the webapp.
 like
 1. azure service plan creation (hdforwebapp) , this service plan provides the a set of compute resources is created for that plan in that region like
@@ -70,6 +70,14 @@ like
    Size of VM instances (Small, Medium, Large)
    Pricing tier (Free, Shared, Basic, Standard, Premium, PremiumV2, PremiumV3, Isolated, IsolatedV2)
 2. in azure appservice , we create the web app (webppcdx)for sample webapplication deployment , here we specify the app service plan id and the resource group name, location for this resource.
+
+Now , for testing purpose of the code, we run the code and create the resources, running the below commnds,
+
+terraform init --> This command will initialize your Terraform working directory and prepare it for further operations and It's important to note that this terraform init command should be run in the directory where your Terraform configuration files are located and Create a .terraform directory in your working directory. This directory will store the downloaded provider plugins and the backend configuration
+
+terraform plan --> 
+
+
 
 
 
