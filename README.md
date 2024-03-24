@@ -86,7 +86,9 @@ after running the terraform apply we got to the azure portal and see the changes
 
 Now, to store the state file we use terraform backend.
 Terraform backend --> A Terraform backend is a configuration option in Terraform that allows you to store and manage the state of your infrastructure. It enables you to manage your Terraform state file remotely, providing several benefits such as version control, collaboration, and remote executions.
-under the github path : 
+under the github path : CICD-terraform-workflow/sourcecode/terraform
+we can see the backend.tf  --> in this file we create the terraform backend with the details resoucre group name, storage account name and container name, key (with .tfstate extension) for statefile storage.
+we can add the storage_access_key for intiall access and later we can place it in the github secrets.
 
 
 
