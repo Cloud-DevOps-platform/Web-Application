@@ -67,5 +67,5 @@ jobs:
         with:
           app-name: 'Nodeapplications'
           slot-name: 'Production'
-          working-directory: ./application
+          working-directory: '${{ github.workspace}}/application'
           
