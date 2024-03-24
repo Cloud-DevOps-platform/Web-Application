@@ -52,6 +52,26 @@ after that we need to create a one resource group , to place all related resourc
 organization : Cloud-DevOps-platform.
 repository   : CICD-terrform-workflow.
 
+In the repository , created the folder sourcecode/terraform 
+
+under this path : CICD-terraform-workflow/sourcecode/terraform
+In provider.tf   --> in this file we need configure the azure provider and the terraform version.
+In main.tf       --> in this file we can have the resource related code, 
+like  
+1. resource group creation (CDX-platform) , we specified the resource group name and location
+2. storage account creation (infracdxbackup) , we specify the account_tier and account_replication_tye and under which resource group and location this storage account should be part of.
+3. cotainer creation in storage account(cdxtffile-container), here we need to specofy the storage_account_name and the container_access_type
+In webapp.tf    --> in this file we have the code for the azure linux_web_app and service plan for the the webapp.
+like
+1. azure service plan creation (hdforwebapp) , this service plan provides the a set of compute resources is created for that plan in that region like
+   Operating System (Windows, Linux)
+   Region (West US, East US, and so on)
+   Number of VM instances
+   Size of VM instances (Small, Medium, Large)
+   Pricing tier (Free, Shared, Basic, Standard, Premium, PremiumV2, PremiumV3, Isolated, IsolatedV2)
+2. in azure appservice , we create the web app (webppcdx)for sample webapplication deployment , here we specify the app service plan id and the resource group name, location for this resource.
+
+
 
 
 
