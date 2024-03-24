@@ -89,6 +89,27 @@ Terraform backend --> A Terraform backend is a configuration option in Terraform
 under the github path : CICD-terraform-workflow/sourcecode/terraform
 we can see the backend.tf  --> in this file we create the terraform backend with the details resoucre group name, storage account name and container name, key (with .tfstate extension) for statefile storage.
 we can add the storage_access_key for intiall access and later we can place it in the github secrets.
+Now if we run the terraform init, it will ask us to reconfigure as we defined the terraform backends , so for that we run below command.
+
+terraform init -reconfigure, this command is used to reinitialize the backend configuration in your Terraform working directory. This command is useful when you want to change the backend configuration or reinitialize the backend with the same configuration.
+
+When you run terraform init -reconfigure, Terraform will:
+
+1.Clear the current state and other files from the previous backend.
+2.Initialize the backend with the new or same configuration.
+3.Download and install the necessary backend plugins.
+4.Initialize the backend and create a new state file.
+
+After running the terraform , backend we can run again 
+terraform paln --> will show the execution plan/changes that are going to replace for the current infrastructure, then run
+terraform apply --> will execute the changes which are in terraform plan.
+
+after a successful apply , we can go to the Azure portal https://portal.azure.com/ and verfiy the resources/changes that are made/created and we can verify the storage container and we can see that state file is being stored init.
+
+After this successful testing, we can destroy all this resources by running terraform destroy command.
+terraform destroy --> The terraform destroy command is used to destroy the resources that were created by a Terraform configuration. It is the opposite of the terraform apply command, which creates or updates infrastructure. When you run terraform destroy, Terraform will generate a destruction plan that shows you the resources that will be destroyed, and then prompt you for confirmation before proceeding and error.tfstate file is created in the local repository as the state file is stored in the storage continer is deleted, so it provides as the backup.
+
+Now we have to Automate this entire process by configuring the terraform workflow in the github action for the ci/cd deployment.
 
 
 
