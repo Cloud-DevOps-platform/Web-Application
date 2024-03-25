@@ -111,9 +111,98 @@ terraform destroy --> The terraform destroy command is used to destroy the resou
 
 Now we have to Automate this entire process by configuring the terraform workflow in the github action for the ci/cd deployment.
 
+For the deployment of the terraform workflow , we need to specify the yaml in the github actions , when ever an event happens (like push, workflow dispatch, branche, pullrequest) then the pipeline will get triggered and automatically terraform plan and apply will get excuted and resources will be created.
+
+to configure the yml pipeline, we navigate to the github actions and we can find the option ** set-up-workflow** , we can select this option and we can start writting our own yaml file for the pipeline. 
+or we can search for the workflow pipeline in the github action, like terraform workflow, it will give the configuration pipeline in yaml file with all related information, we may review that file and make the necessary changes for that.
+
+yaml file is created under .github/workflowterraformplan.yml , this is the path for the workflow configuration file, here i named the workflow file as terraformplan.yaml, 
+in this file we have created the pipeline in an event driven way, like when ever happens pipline will get triggered, for that we specify with the on:
+
+like 
+
+on: 
+push:
+    branches:
+      - main
+  pull_request:
+
+  here pipline will trigger when ever we the apply the push to main brach ro we can create the new branch and raised the pull request and later we can get this merged.
+
+  here we specified we specified the Azure client id , tenant id , subscrition id and client secret as the environment variables for the authentication of the github actions as shown below.
+  env:
+
+ ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+ ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
+ ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+ ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+ ROOT_PATH : '${{ github.workspace }}/sourcecode/terraform'
+here we specified the ROOT_PATH to the starting location or base directory from which an application or system begins accessing files or navigating through directories, we can specify the default root path as github.worksapce, refering to our terraform configuration files.
+
+Now we specify the Jobs to run , like how terraform plan and terrafrom apply and on which environment they need to run and undert the jobs section we mention 
+
+runs-on: unbuntu-latest --> ubuntu-latest is a pre-configured environment in GitHub Actions that you can use in your workflow files to run your GitHub Actions workflow on a specific operating system, which in this case is Ubuntu and When you set runs-on: ubuntu-latest in your workflow, you are indicating that all the steps of the job will be executed on an Ubuntu machine, which is updated with the latest version of the Ubuntu operating system, The benefit of using ubuntu-latest in your workflow configuration is that you can leverage the latest Ubuntu updates and packages without having to worry about the maintenance and configuration of the underlying environment.
+ and we use the the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest by specifying the 
+shell : bash --> this will Specifying the shell in a GitHub Action YAML file allows you to select the type of shell that runs the commands in the run statement.
+aafter that we specify the steps and under the steps we define all the steps that need to run in the pipeline , initiall we specify the -name:checkout and it uses the latest verion, like 
+-name: checkout
+uses: actions/checkout@v3 , this will define step in the workflow that checks out your repository's content. This enables subsequent steps to access and modify the source code.
+now we specify the command to download the terraform and setup the in the yaml configuration file.
+- name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+  
+  that block states name: Setup Terraform step sets up the required version of Terraform using the hashicorp/setup-terraform GitHub Action. The cli_config_credentials_token argument is set to the TF_API_TOKEN secret available in the GitHub repository.
+
+  After this we can specify the Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc and we can define the terrafrom plan and terraform apply command in the file to create the new resources, like mentioned below.
+
+  - name: Terraform Init
+          run: terraform init
+          working-directory: ${{env.ROOT_PATH}}
+
+that block will - name: Terraform Init step in a GitHub Actions YAML file initializes Terraform in the specified working directory, which is ROOT_PATH and terraform init command is run, it performs the following tasks:
+
+Initializes the backend for storing the Terraform state.
+Downloads the required providers.
+Initializes the modules.
+
+ After this we will define the terraform plan , like 
+
+ name: Terraform Plan
+      run: terraform plan
+      working-directory: ${{env.ROOT_PATH}}
+
+this block will, A GitHub Actions workflow step that executes the terraform plan command in the directory specified by the ROOT_PATH and The terraform plan command will show you the planned changes that Terraform will make to your infrastructure, but it won't modify the infrastructure. Instead, it generates and displays an execution plan for a given Terraform configuration.
+
+and finally we run the terraform apply , like 
+
+        - name: Terraform apply
+          run: terraform apply --auto-approve
+          working-directory: ${{env.ROOT_PATH}}
+This will execute a terraform apply command, which will apply the changes described in the configuration files in the ROOT_PATH directory. The --auto-approve flag skips the interactive approval prompt during the apply.
+
+path to yaml file: https://github.com/Cloud-DevOps-platform/CICD-terraform-workflow/blob/main/.github/workflows/terraformplan.yml
+
+after all this opertaion we can say that resources has been created and we cann login to the Azure portal and can validate the resources.
 
 
+After the web app deployment is successfull we can check the resoource in the Azure portal and can setup a sample web application (Nodejs) deployment via Azure portal with the help of the deployment center or we can create a template file file for the Nodejs web app deployment configuration from the githuib market place.
 
+path to the web-application deployment : https://github.com/Cloud-DevOps-platform/Web-Application/actions/runs/8405998037/workflow.
+
+ The pipeline building for the webapplication from deployment cneter is pretty straight farward.
+
+ 1. login to the Azure portal.
+ 2. navigate to the web app that we have created.
+ 3. go to the deployment center and navigate to the settings section, under source select the Option as Github and To change the provider, select Change provider > App Service Build Service > OK.
+ 4. If you're deploying from GitHub for the first time, select Authorize and follow the authorization prompts. If you want to deploy from a different user's repository, select Change Account.
+ 5. After you authorize your Azure account with GitHub, select the Organization, Repository, and Branch you want.
+ 6. Under Authentication type, select User-assigned identity for better security.
+ 7. To see the file before saving your changes, select Preview file and finally save it, then we can see under the github section pipeline is triggered and sample web application "welcome to 2024" is deployed the successfully
+ 8. now by webapp url link we can browse and see the application is running succesfully.
+
+                   **THANK YOU **
 
 
 
