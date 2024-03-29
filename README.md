@@ -1,3 +1,4 @@
+
 Deploying the Nodejs application to Azure Web-app with the help of github Actions.
 
 **Pre-requisites:**
@@ -48,7 +49,7 @@ ex: git clone https://github.com/<organisation_name>/<repository_name>.git
 Now we have the required Prerequisites ready working for the project CDX-platform enginner.
 
 First initially , before Ensure that you have the appropriate Azure subscription and account set up, and that you have the necessary permissions to create and manage resources.
-after that we need to create a one resource group , to place all related resources under that group, here i created the resource group with name **CDX-platform** under organisation Cloud-DevOps-platform and under repositroy CICD-terraform-workflow.
+after that we need to create a one resource group , to place all related resources under that group, here i created the resource group under organisation Cloud-DevOps-platform and under repositroy CICD-terraform-workflow.
 github url : [https://github.com/Cloud-DevOps-platform/CICD-terraform-workflow/tree/main/sourcecode/terraform](https://github.com/Cloud-DevOps-platform/CICD-terraform-workflow)
 organization : Cloud-DevOps-platform.
 repository   : CICD-terrform-workflow.
@@ -60,9 +61,9 @@ under this path : CICD-terraform-workflow/sourcecode/terraform
 In provider.tf   --> in this file we need configure the azure provider and the terraform version.
 In main.tf       --> in this file we can have the resource related code, 
 like  
-1. resource group creation (CDX-platform) , we specified the resource group name and location
-2. storage account creation (infracdxbackup) , we specify the account_tier and account_replication_tye and under which resource group and location this storage account should be part of.
-3. cotainer creation in storage account(cdxtffile-container), here we need to specofy the storage_account_name and the container_access_type and it is used to store the terraform state file.
+1. resource group creation , we specified the resource group name and location
+2. storage account creation, we specify the account_tier and account_replication_tye and under which resource group and location this storage account should be part of.
+3. cotainer creation in storage account , here we need to specofy the storage_account_name and the container_access_type and it is used to store the terraform state file.
 In webapp.tf    --> in this file we have the code for the azure linux_web_app and service plan for the the webapp.
 like
 1. azure service plan creation (hdforwebapp) , this service plan provides the a set of compute resources is created for that plan in that region like
